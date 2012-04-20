@@ -3,6 +3,8 @@ h1. handyhttpd - A Handy HTTP Server
 A handy http server to enable public http access on any folder within a few seconds.
 It can only serve static files.
 
+Feel free to let me know your comment thru twitter "@huandu":https://twitter.com/huandu
+
 h2. Quick Tutorial
 
 First of all, build the binary on your server. You have to install "go":http://golang.org/ before you start.
@@ -16,9 +18,9 @@ go build
 Then you should have got a binary file "handyhttpd". Copy it to a dir in $PATH.
 Run it in any dir you want public http access.
 
-<code>
+<pre>
 [user@server /your/dir/for/http]$ handyhttpd
-</code>
+</pre>
 
 It's done. You can visit your dir in any browser thru url http://server-ip:9696/http/
 
@@ -31,9 +33,9 @@ or 80 is in use), it will use port 9696 instead. You can also use
 As you may notice soon, the handy has no deamon mode. You have to manually use
 <code>nohup</code> and <code>&</code> to hide it in background.
 
-<code>
+<pre>
 [user@server /your/dir/for/http]$ nohup handyhttpd &
-</code>
+</pre>
 
 Luckily, you just need to do that once. There will only one handy instance in your
 system. Further calls to the handy are simply to notify the running instance
@@ -44,9 +46,9 @@ and run the handy with <code>--remove</code> option.
 
 Last but not least, use following command to shutdown the handy completely.
 
-<code>
+<pre>
 [user@server ~]$ handyhttpd --quit
-</code>
+</pre>
 
 h2. Advanced Usage
 
