@@ -176,15 +176,14 @@ func main() {
         http.Serve(l, nil)
     }()
 
+    defer l.Close()
+    defer h.Stop()
     sig := make(chan os.Signal)
     signal.Notify(sig)
 
     for {
         s := <-sig
         if s == syscall.SIGKILL || s == syscall.SIGINT || s == syscall.SIGTERM {
-            l.Close()
-            h.Stop()
-
             gLogger.Println("gracefully exit with signal", s)
             return
         }
