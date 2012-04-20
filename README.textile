@@ -58,6 +58,4 @@ Besides all <code>python -m SimpleHTTPServer</code> features, the handy is able 
 * serve more than one dir on a single port.
 * run only one server instance at once - much easy to manage. Thinking that you are able to start the handyhttpd on one ssh terminal and modify/shutdown it on another.
 
-The major difference between these two implementation is the url. The python
-implementation always use "/" as document root, while the handy requires an
-alias (say "foo" for /path/to/foo/) and serve "/foo/" as document root.
+The major difference between these two implementation is the url. The python implementation always use "/" as document root, while the handy requires an alias (say "foo" for /path/to/foo/) and serve "/foo/" as document root.
