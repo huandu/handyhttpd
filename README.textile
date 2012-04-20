@@ -3,7 +3,7 @@ h1. handyhttpd - A Handy HTTP Server
 A handy http server to enable public http access on any folder within a few seconds.
 It can only serve static files.
 
-h2. Quick Tuturial
+h2. Quick Tutorial
 
 First of all, build the binary on your server. You have to install "go":http://golang.org/ before you start.
 
