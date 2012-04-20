@@ -3,7 +3,7 @@ h1. handyhttpd - A Handy HTTP Server
 A handy http server to enable public http access on any folder within a few seconds.
 It can only serve static files.
 
-Feel free to let me know your comment thru twitter "@huandu":https://twitter.com/huandu
+Feel free to let me know your comment on twitter. My account is "@huandu":https://twitter.com/huandu.
 
 h2. Quick Tutorial
 
