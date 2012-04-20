@@ -1,0 +1,56 @@
+h1. handyhttpd - A Handy HTTP Server
+
+A handy http server to enable public http access on any folder within a few seconds.
+
+h2. Quick Tuturial
+
+First of all, build the binary on your server. You have to install "go":http://golang.org/ before you start.
+
+<code>
+go build github.com/huandu/handyhttpd
+</code>
+
+Then you should have got a binary file "handyhttpd". Just run it in any dir you
+want public http access.
+
+Suppose the handyhttpd binary is placed in /your/bin/path/ and you run it in
+/your/dir/for/http/.
+
+<code>
+[user@server /your/dir/for/http]$ /your/bin/path/handyhttpd
+</code>
+
+It's done. You can visit your dir in any browser thru url
+http://server-ip:9696/http/
+
+You can change the base url by using <code>--alias</code> option.
+
+By default, the handy will listen port 80. If it fails (e.g. not a root account
+or 80 is in use), it will use port 9696 instead. You can also use
+<code>--port</code> option to change it to your favorate number.
+
+As you may notice soon, the handy has no deamon mode. You have to manually use
+<code>nohup</code> and <code>&</code> to hide it in background.
+
+<code>
+[user@server /your/dir/for/http]$ nohup /your/bin/path/handyhttpd &
+</code>
+
+Luckily, you just need to do it once. There will *only 1* handy instance in your
+system. Further calls to the handy are simply to notify running instance with
+your parameters and exit instantly.
+
+If you don't want to enable http access on a dir any more, just go to that dir
+and run the handy with <code>--remove</code> option.
+
+Last but not least, use following command to shutdown the handy completely.
+
+<code>
+[user@server /your/dir/for/http]$ /your/bin/path/handyhttpd --quit
+</code>
+
+h2. Advanced Usage
+
+Sorry, there is no advanced usage. It's just a very very simple httpd. :P
+
+Use <code>--help</code> to explore all handyhttpd options and have fun.
