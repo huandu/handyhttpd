@@ -117,13 +117,26 @@ func LastPort() int {
 }
 
 func (handy *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    // list all aliases if URL is "/"
+    if r.URL.Path == "/" || len(r.URL.Path) == 0 {
+        w.Header().Set("Content-Type", "text/html; charset=utf-8")
+        fmt.Fprintln(w, "<pre>")
+
+        for k, v := range(handy.dirs) {
+            fmt.Fprintf(w, `<a href="/%s/">%s</a>`, v, k)
+        }
+
+        fmt.Fprintln(w, "</pre>")
+        return
+    }
+
     path := r.URL.Path + "/"
     handy.logger.Println("handling a request with path", path)
 
     for _, v := range(handy.handlers) {
         if strings.HasPrefix(path, v.prefix) {
             r.URL.Path = "/" + v.base + path[len(v.prefix) - 1:len(path) - 1]
-            handy.logger.Println("found a matched handler to serve request. new path:", r.URL.Path, "path:", path, "prefix:", v.prefix)
+            handy.logger.Println("found a matched handler to serve request. path:")
             v.handler.ServeHTTP(w, r)
             return
         }
