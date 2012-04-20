@@ -1,16 +1,17 @@
 h1. handyhttpd - A Handy HTTP Server
 
 A handy http server to enable public http access on any folder within a few seconds.
+It can only serve static files.
 
 h2. Quick Tuturial
 
 First of all, build the binary on your server. You have to install "go":http://golang.org/ before you start.
 
-<code>
+<pre>
 git clone http://github.com/huandu/handyhttpd
 cd handyhttpd
 go build
-</code>
+</pre>
 
 Then you should have got a binary file "handyhttpd". Copy it to a dir in $PATH.
 Run it in any dir you want public http access.
