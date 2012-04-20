@@ -7,23 +7,21 @@ h2. Quick Tuturial
 First of all, build the binary on your server. You have to install "go":http://golang.org/ before you start.
 
 <code>
-go build github.com/huandu/handyhttpd
+git clone http://github.com/huandu/handyhttpd
+cd handyhttpd
+go build
 </code>
 
-Then you should have got a binary file "handyhttpd". Just run it in any dir you
-want public http access.
-
-Suppose the handyhttpd binary is placed in /your/bin/path/ and you run it in
-/your/dir/for/http/.
+Then you should have got a binary file "handyhttpd". Copy it to a dir in $PATH.
+Run it in any dir you want public http access.
 
 <code>
-[user@server /your/dir/for/http]$ /your/bin/path/handyhttpd
+[user@server /your/dir/for/http]$ handyhttpd
 </code>
 
-It's done. You can visit your dir in any browser thru url
-http://server-ip:9696/http/
+It's done. You can visit your dir in any browser thru url http://server-ip:9696/http/
 
-You can change the base url by using <code>--alias</code> option.
+Base url is the dir running the handy. You can change the url by using <code>--alias</code> option.
 
 By default, the handy will listen port 80. If it fails (e.g. not a root account
 or 80 is in use), it will use port 9696 instead. You can also use
