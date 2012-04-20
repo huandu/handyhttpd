@@ -127,10 +127,17 @@ func main() {
         return
     }
 
+    defer l.Close()
+
+    // there is no running handy, just return
+    if *quit {
+        gLogger.Println("gracefully exit with command line")
+        return
+    }
+
     // as this server is the only running server, nothing to list
     if *list {
         fmt.Println("No server is running")
-        l.Close()
         return
     }
 
@@ -176,7 +183,6 @@ func main() {
         http.Serve(l, nil)
     }()
 
-    defer l.Close()
     defer h.Stop()
     sig := make(chan os.Signal)
     signal.Notify(sig)
