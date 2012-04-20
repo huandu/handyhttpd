@@ -32,20 +32,20 @@ As you may notice soon, the handy has no deamon mode. You have to manually use
 <code>nohup</code> and <code>&</code> to hide it in background.
 
 <code>
-[user@server /your/dir/for/http]$ nohup /your/bin/path/handyhttpd &
+[user@server /your/dir/for/http]$ nohup handyhttpd &
 </code>
 
-Luckily, you just need to do it once. There will *only 1* handy instance in your
-system. Further calls to the handy are simply to notify running instance with
-your parameters and exit instantly.
+Luckily, you just need to do that once. There will only one handy instance in your
+system. Further calls to the handy are simply to notify the running instance
+and exit instantly.
 
-If you don't want to enable http access on a dir any more, just go to that dir
+If you want to disable http access on a dir any more, just go to that dir
 and run the handy with <code>--remove</code> option.
 
 Last but not least, use following command to shutdown the handy completely.
 
 <code>
-[user@server /your/dir/for/http]$ /your/bin/path/handyhttpd --quit
+[user@server ~]$ handyhttpd --quit
 </code>
 
 h2. Advanced Usage
