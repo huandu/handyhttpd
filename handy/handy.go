@@ -123,7 +123,7 @@ func (handy *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintln(w, "<pre>")
 
         for k, v := range(handy.dirs) {
-            fmt.Fprintf(w, `<a href="/%s/">%s</a>`, v, k)
+            fmt.Fprintf(w, `<a href="/%s/">%s/%s</a>`, v, k, v)
         }
 
         fmt.Fprintln(w, "</pre>")
