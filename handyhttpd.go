@@ -53,6 +53,7 @@ func main() {
     alias := flag.String("alias", "", "URL alias to serve. By default, dir name will be used as alias.")
     remove := flag.Bool("remove", false, "Remove current dir so that no one can visit it thru http anymore.")
     list := flag.Bool("list", false, "List all running servers and hosted dirs.")
+    worker := flag.Bool("worker", false, "Indicate it's a worker process. It's used to daemonize handyhttpd. Never use it in command line.")
     quit := flag.Bool("quit", false, "Quit server completely.")
     flag.Parse()
 
@@ -62,6 +63,24 @@ func main() {
         log.Println("cannot open log file to write. filename:", tempdir + "/" + HANDY_LOG_FILENAME, "err:", err)
         log.Println("print log to stdout now")
         file = os.Stdout
+    }
+
+    // worker need to close all std in/out/err
+    if *worker {
+        fd, err := syscall.Open("/dev/null", syscall.O_RDWR, 0)
+
+        if err != nil {
+            fmt.Println("cannot open /dev/null", "err:", err)
+            panic(err)
+        }
+
+        syscall.Dup2(fd, syscall.Stdin)
+        syscall.Dup2(fd, syscall.Stdout)
+        syscall.Dup2(fd, syscall.Stderr)
+
+        if fd > syscall.Stderr {
+            syscall.Close(fd)
+        }
     }
 
     gLogger = log.New(file, "", log.LstdFlags)
@@ -129,6 +148,21 @@ func main() {
 
     defer l.Close()
 
+    // daemonize handyhttpd
+    if !*worker {
+        args := append([]string{os.Args[0], "-worker"}, os.Args[1:]...)
+        attr := syscall.ProcAttr{}
+        _, _, err := syscall.StartProcess(os.Args[0], args, &attr)
+
+        if err != nil {
+            fmt.Println("cannot daemonize handyhttpd", "err:", err)
+            gLogger.Println("cannot daemonize handyhttpd", "err:", err)
+            return
+        }
+
+        return
+    }
+
     // there is no running handy, just return
     if *quit {
         gLogger.Println("gracefully exit with command line")
@@ -184,7 +218,7 @@ func main() {
     }()
 
     defer h.Stop()
-    sig := make(chan os.Signal)
+    sig := make(chan os.Signal, 1)
     signal.Notify(sig)
 
     for {
