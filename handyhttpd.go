@@ -13,6 +13,7 @@ import (
     "syscall"
     "fmt"
     "strconv"
+    "strings"
 
     h "./handy"
 )
@@ -151,8 +152,21 @@ func main() {
     // daemonize handyhttpd
     if !*worker {
         args := append([]string{os.Args[0], "-worker"}, os.Args[1:]...)
-        attr := syscall.ProcAttr{}
-        _, _, err := syscall.StartProcess(os.Args[0], args, &attr)
+        exec := os.Args[0]
+
+        // if exec is called without any path separator, it must be in a PATH dir.
+        if !strings.ContainsRune(exec, os.PathSeparator) {
+            path := os.Getenv("PATH")
+            paths := strings.Split(path, fmt.Sprintf("%c", os.PathListSeparator))
+
+            for _, s := range(paths) {
+                if file, err := os.Stat(s + "/" + exec); err == nil && !file.IsDir() {
+                    exec = s + "/" + exec
+                }
+            }
+        }
+
+        _, _, err := syscall.StartProcess(exec, args, nil)
 
         if err != nil {
             fmt.Println("cannot daemonize handyhttpd", "err:", err)
