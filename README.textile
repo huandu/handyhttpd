@@ -1,57 +1,58 @@
 h1. handyhttpd - A Handy HTTP Server
 
-A handy http server to enable public http access on any folder within a few seconds. It can only serve static files.
+<code>handyhttpd</code>, as its name implies, is a handy http server to enable public http access on any folder with a simple command. It's designed for simplicity.
 
-Feel free to let me know your comment on twitter. My account is "@huandu":https://twitter.com/huandu.
+h2. Tutorial
 
-h2. Quick Tutorial
+h3. Installation
 
-First of all, build the binary on your server. You have to install "go":http://golang.org/ before you start.
+<code>handyhttpd</code> is written in "go":http://golang.org/. Install latest go before start.
 
-<pre>
-git clone http://github.com/huandu/handyhttpd
-cd handyhttpd
-go build
-</pre>
-
-Then you should have got a binary file "handyhttpd". Copy it to a dir in $PATH. Run it in any dir you want public http access.
+Use following command to get and build it with go.
 
 <pre>
-[user@server /your/dir/for/http]$ handyhttpd
+go get github.com/huandu/handyhttpd
+go install github.com/huandu/handyhttpd
 </pre>
 
-It's done. You can visit your dir in any browser thru url http://server-ip:9696/http/
+<code>handyhttpd</code> will be built and installed to <code>$GOPATH/bin/handyhttpd</code>.
+
+h3. Basic Usage
+
+Run it in any dir to get public http access.
 
 <pre>
-[user@server /your/another/dir]$ handyhttpd
-[user@server /your/another/dir]$ curl http://server-ip:9696/dir/ # to see your dir
+[user@server /your/dir/foo]$ handyhttpd
 </pre>
 
-Base url is the current dir name calling the handy. You can change the url by using <code>--alias</code> option.
+<code>handyhttpd</code> listens port 9696 by default. This dir can be accessed by url <code>http://localhost:9696/foo</code>.
 
-By default, the handy will listen port 80. If it fails (e.g. not a root account or 80 is in use), it will use port 9696 instead. You can also use <code>--port</code> option to change it to your favorate number.
-
-If you want to disable http access on a dir any more, just go to that dir and run the handy with <code>--remove</code> option.
-
-Last but not least, use following command to shutdown the handy completely.
+If you need to add more dir to <code>handyhttpd</code>, just go to that dir and run exactly the same command.
 
 <pre>
-[user@server ~]$ handyhttpd --quit
+[user@server /your/dir/foo]$ cd /your/dir/bar
+[user@server /your/dir/bar]$ handyhttpd
 </pre>
 
-h2. Advanced Usage
+Maybe the dir name "bar" doesn't sound cool, use <code>--alias</code> option to rename it.
 
-Sorry, there is no advanced usage. It's just a very very simple httpd. :P
+<pre>
+[user@server /your/dir/bar]$ handyhttpd --alias=soundy_bar
+</pre>
+
+Once you don't need to provide http service any more, type <code>handyhttpd --quit</code>.
+
+If port 9696 is not your favorate, you can specify a port by <code>--port</code> option on <code>handyhttpd</code> first start. Just notice that <code>handyhttpd</code> cannot change port after it's up. Restart it to change port.
 
 Use <code>--help</code> to explore all handyhttpd options and have fun.
 
 h2. Comparisions With <code>python -m SimpleHTTPServer</code>
 
-The handyhttpd is a bit more complex and useful than <code>python -m SimpleHTTPServer</code>.
+In short, <code>handyhttpd</code> is a bit stronger and easier than <code>python -m SimpleHTTPServer</code>.
 
-Besides all <code>python -m SimpleHTTPServer</code> features, the handy is able to
+<code>handyhttpd</code> implements all <code>python -m SimpleHTTPServer</code> features.
+
+In addition, it can
 
 * serve more than one dir on a single port.
-* run only one server instance at once - much easy to manage. Thinking that you are able to start the handyhttpd on one ssh terminal and modify/shutdown it on another.
-
-The major difference between these two implementation is the url. The python implementation always use "/" as document root, while the handy requires an alias (say "foo" for /path/to/foo/) and serve "/foo/" as document root.
+* run only one server instance at once - much easy to manage. You can start <code>handyhttpd</code> over one ssh connection and modify/quit it over another. There is no need for you to use <code>ps</code> and <code>kill</code> with <code>handyhttpd</code>.

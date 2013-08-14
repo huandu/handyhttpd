@@ -14,8 +14,6 @@ import (
     "fmt"
     "strconv"
     "strings"
-
-    h "./handy"
 )
 
 const (
@@ -29,10 +27,10 @@ var (
 )
 
 func parseParams(root, pattern string, port int, remove bool) bool {
-    handy, ok := h.Find(port)
+    handy, ok := Find(port)
 
     if !ok {
-        if handy = h.New(port, gLogger); handy == nil {
+        if handy = New(port, gLogger); handy == nil {
             gLogger.Println("cannot create new handy server")
             return false
         }
@@ -195,7 +193,7 @@ func main() {
         // handle other server's request
         http.HandleFunc("/list", func(w http.ResponseWriter, r *http.Request) {
             gLogger.Println("listing all ports per request")
-            h.List(w)
+            List(w)
         })
         http.HandleFunc("/quit", func(w http.ResponseWriter, r *http.Request) {
             fmt.Fprintln(w, "Handy server is quiting now")
@@ -225,13 +223,13 @@ func main() {
 
             portNumber, _ := strconv.Atoi(port[0])
             if parseParams(dir[0], alias[0], portNumber, remove) {
-                fmt.Fprintf(w, "%s dir %s as /%s on port %d\n", verb[0], dir[0], alias[0], h.LastPort())
+                fmt.Fprintf(w, "%s dir %s as /%s on port %d\n", verb[0], dir[0], alias[0], LastPort())
             }
         })
         http.Serve(l, nil)
     }()
 
-    defer h.Stop()
+    defer Stop()
     sig := make(chan os.Signal, 1)
     signal.Notify(sig)
 

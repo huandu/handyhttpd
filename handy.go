@@ -1,4 +1,4 @@
-package handy
+package main
 
 import (
     "net"
